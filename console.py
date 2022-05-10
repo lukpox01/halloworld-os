@@ -1,5 +1,6 @@
 import os
 import time
+import shutil
 
 
 class Console:
@@ -17,6 +18,8 @@ class Console:
             "exit": self.exit_,
             "ld": self.ld,
             "contentof": self.content_of_file,
+            "rd": self.remove_dir,
+            "rf": self.remove_file
         }
         self.commands_keys = self.commands.keys()
 
@@ -138,8 +141,43 @@ class Console:
         self.cls()
         exit(0)
 
+    def remove_file(self, path, *args): 
+            
+        path = self.path_customizer(path)
+        custom_path = str(path).split("/")
+        is_parent_dir = os.path.isdir(
+            os.path.join(f"{custom_path[0]}/{custom_path[1]}", *custom_path[2:-1])
+        )
+        if is_parent_dir:
+            isfile = os.path.isfile(path)
+            if isfile:
+                os.remove(path)
+            else:
+                print("Check again something went wrong (this file doesnt exists)")
+
+        else:
+            print("Check again something went wrong (this dir doesnt exists)")
+            
+            
+    def remove_dir(self, path, *args): 
+        try:# just check if args[0] exists
+            args[0] == "r"
+            param1 = "r"
+        except:
+            param1 = None
+        path = self.path_customizer(path)
+        isdir = os.path.isdir(path)
+        if isdir:
+            if param1 == "r":
+                shutil.rmtree(path)
+            elif param1 == None:
+                os.rmdir(path)
+        else:
+            print("Check again something went wrong (this dir doesnt exists)")
 
 c = Console(
     "C:\\Users\\lukiy\\OneDrive\\Počítač\\programing\\halloworld-os\\os\\lukpox01",
     "lukpox01",
 )
+
+c.command_input()
