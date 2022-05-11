@@ -21,6 +21,9 @@ def clear():
 
 def presetup():
     path = os.getcwd()
+    if not os.path.exists(os.path.join(path, "os")):
+        os.mkdir(os.path.join(path, "os"))
+        
     path = os.path.join(path, "os")
     in_main_dir = os.listdir(path)
     if in_main_dir == []:

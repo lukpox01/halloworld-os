@@ -163,7 +163,10 @@ class Console:
         if is_parent_dir:
             isfile = os.path.isfile(path)
             if isfile:
-                os.remove(path)
+                if custom_path[0] == "login_info.txt": 
+                    print("Check again something went wrong (you cant delete this file)")
+                else:
+                    os.remove(path)
             else:
                 print("Check again something went wrong (this file doesnt exists)")
 
@@ -206,10 +209,3 @@ class Console:
 
         else:
             print("Check again something went wrong (this dir doesnt exists)")
-
-c = Console(
-    "C:\\Users\\lukiy\\OneDrive\\Počítač\\programing\\halloworld-os\\os\\lukpox01",
-    "lukpox01",
-)
-
-c.command_input()
