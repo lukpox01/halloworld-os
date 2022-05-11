@@ -1,6 +1,9 @@
 import os
 import time
 import shutil
+import colorama
+from colorama import Fore, Back, Style
+from apps import *
 
 
 class Console:
@@ -19,11 +22,14 @@ class Console:
             "ld": self.ld,
             "contentof": self.content_of_file,
             "rd": self.remove_dir,
-            "rf": self.remove_file
+            "rf": self.remove_file,
+            "open": self.open_file,
         }
         self.commands_keys = self.commands.keys()
+        
+        colorama.init(autoreset=True)
 
-    def path_customizer(self, path):  # TODO more funcs
+    def path_customizer(self, path): 
         path = path.replace("\\", "/")
         if path.find("~") != -1:
             path = path.replace("~", self.usr_path)
@@ -99,7 +105,7 @@ class Console:
         else:
             print("Check again something went wrong (this dir doesnt exists)")
 
-    def ld(self, path=None, *args):  # TODO more dynamic
+    def ld(self, path=None, *args):
         if path == None:
             path = os.getcwd()
         else:
@@ -109,7 +115,13 @@ class Console:
             in_dir = os.listdir(path)
             print(" ")
             for i in in_dir:
-                print(i)
+                if os.path.isfile(os.path.join(path, i)):
+                    print(i)
+                elif os.path.isdir(os.path.join(path, i)):
+                    print(Fore.CYAN + i)
+                else:
+                    print(Fore.GREEN + i) # if there is something else(undetected file)
+                
             print(" ")
         else:
             print("Check again something went wrong (this dir does not exists)")
@@ -172,6 +184,26 @@ class Console:
                 shutil.rmtree(path)
             elif param1 == None:
                 os.rmdir(path)
+        else:
+            print("Check again something went wrong (this dir doesnt exists)")
+
+    # TODO remane file/dir
+    
+    def open_file(self, path):
+        path = self.path_customizer(path)
+        custom_path = str(path).split("/")
+        is_parent_dir = os.path.isdir(
+            os.path.join(f"{custom_path[0]}/{custom_path[1]}", *custom_path[2:-1])
+        )
+        if is_parent_dir:
+            isfile = os.path.isfile(path)
+            if isfile:
+                with open(path, "r") as f:
+                    content = f.read()
+                    TextEditor(content)
+            else:
+                print("Check again something went wrong (this file doesnt exists)")
+
         else:
             print("Check again something went wrong (this dir doesnt exists)")
 

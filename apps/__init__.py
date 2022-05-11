@@ -1,0 +1,1 @@
+from .text_editor.main import main as TextEditor

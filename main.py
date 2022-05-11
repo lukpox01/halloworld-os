@@ -2,7 +2,7 @@ import os
 import time
 import shutil
 
-from utils import logo
+from utils.utils import logo
 from console import Console
 
 user_menu = """

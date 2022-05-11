@@ -60,6 +60,13 @@
 > **Funcs:**  
 > - This command can be used to delete file
 
+> ### open *{ path }*
+> **Params:**  
+> - **path** - you can specify full path or just one file
+> 
+> **Funcs:**  
+> - This command can be used to open file in gui text editor (for now you cant edit/save, just read)
+
 > ### exit
 > 
 > **Funcs:**  
