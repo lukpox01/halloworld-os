@@ -1,1 +1,1 @@
-from .text_editor.main import main as TextEditor
+from .text_editor.texteditor import main as TextEditor

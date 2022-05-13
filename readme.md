@@ -22,9 +22,10 @@
 > **Funcs:**  
 > - This command can be used to crete directory
 
-> ### mf *{ path }*  
+> ### mf *{ path /content }*  
 > **Params:**  
-> - **path** - you can specify full path or just one file  
+> - **path** - you can specify full path or just one file
+> - **content** - you can specify content of file (text)  
 > 
 > **Funcs:**  
 > - This command can be used to crete any file
@@ -65,7 +66,15 @@
 > - **path** - you can specify full path or just one file
 > 
 > **Funcs:**  
-> - This command can be used to open file in gui text editor (for now you cant edit/save, just read)
+> - This command can be used to open file in gui text editor
+
+> ### openapp *{ app }*
+> **Params:**  
+> - **app** - you can specify what app do you want to open
+>   - texteditor - gui text editor
+> 
+> **Funcs:**  
+> - This command can be used to open any app
 
 > ### exit
 > 
