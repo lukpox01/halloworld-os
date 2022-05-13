@@ -24,9 +24,12 @@ class Console:
             "rd": self.remove_dir,
             "rf": self.remove_file,
             "open": self.open_file,
+            "openapp": self.open_app,
         }
         self.commands_keys = self.commands.keys()
         
+        self.apps = {"texteditor": TextEditor}
+        self.apps_keys = self.apps.keys()
         colorama.init(autoreset=True)
 
     def path_customizer(self, path): 
@@ -58,7 +61,10 @@ class Console:
                 if clen == 1:
                     func()
                 else:
-                    func(*self.command[1:])
+                    if self.command[0] == "mf":
+                        func(*self.command[1:], None)
+                    else:
+                        func(*self.command[1:])
 
     def cls(self, *args):
         os.system("cls")
@@ -81,7 +87,7 @@ class Console:
                 "Check again something went wrong (you cant create multiple dirs at once)"
             )
 
-    def mf(self, path, *args):
+    def mf(self, path, content, *args):
         path = self.path_customizer(path)
         custom_path = path.split("/")
         is_parent_dir = os.path.isdir(
@@ -93,6 +99,7 @@ class Console:
                 print("Check again something went wrong (this file already exists)")
             else:
                 f = open(path, "w")
+                f.write(content)
                 f.close()
         else:
             print("Check again something went wrong (this dir doesnt exists)")
@@ -174,12 +181,7 @@ class Console:
             print("Check again something went wrong (this dir doesnt exists)")
             
             
-    def remove_dir(self, path, *args): 
-        try:# just check if args[0] exists
-            args[0] == "r"
-            param1 = "r"
-        except:
-            param1 = None
+    def remove_dir(self, path, param1, *args): 
         path = self.path_customizer(path)
         isdir = os.path.isdir(path)
         if isdir:
@@ -192,6 +194,13 @@ class Console:
 
     # TODO remane file/dir
     
+    def open_app(self, param1):
+        param1.lower()
+        if param1 == "texteditor":
+            TextEditor(None, None)
+        else:
+            print("Check again something went wrong (this app doesnt exists)")
+    
     def open_file(self, path):
         path = self.path_customizer(path)
         custom_path = str(path).split("/")
@@ -199,11 +208,9 @@ class Console:
             os.path.join(f"{custom_path[0]}/{custom_path[1]}", *custom_path[2:-1])
         )
         if is_parent_dir:
-            isfile = os.path.isfile(path)
+            isfile = os.path.isfile(path, custom_path[-1])
             if isfile:
-                with open(path, "r") as f:
-                    content = f.read()
-                    TextEditor(content)
+                TextEditor(path)
             else:
                 print("Check again something went wrong (this file doesnt exists)")
 
