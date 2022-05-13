@@ -208,9 +208,9 @@ class Console:
             os.path.join(f"{custom_path[0]}/{custom_path[1]}", *custom_path[2:-1])
         )
         if is_parent_dir:
-            isfile = os.path.isfile(path, custom_path[-1])
+            isfile = os.path.isfile(path)
             if isfile:
-                TextEditor(path)
+                TextEditor(path,custom_path[-1])
             else:
                 print("Check again something went wrong (this file doesnt exists)")
 

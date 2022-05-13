@@ -3,3 +3,4 @@ __pycache__
 tests.py
 preset.txt
 bin/
+workspace.code-workspace
