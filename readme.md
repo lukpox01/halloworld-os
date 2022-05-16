@@ -8,6 +8,11 @@
 > **Funcs:**  
 > - This command can be used to clear console 
 
+> ### cwd 
+>     
+> **Funcs:**  
+> - This command prints current working directory 
+
 > ### cd *{ path }*  
 > **Params:**  
 > - **path** - you can specify full path or just one dir
@@ -61,6 +66,14 @@
 > **Funcs:**  
 > - This command can be used to delete file
 
+> ### rn *{ path new_path}*
+> **Params:**  
+> - **path** - you can specify full path or just one file that you want to rename or move
+> - **new_path** - you can specify full path or just one file that you want to be renamed to or moved to
+> 
+> **Funcs:**  
+> - This command can be used to rename dir/file
+
 > ### open *{ path }*
 > **Params:**  
 > - **path** - you can specify full path or just one file
@@ -80,3 +93,14 @@
 > 
 > **Funcs:**  
 > - This command can be used to exit program
+
+## Apps
+### TextEditor
+> **Funcs:**
+> - **File**
+>   - *save* - save file content
+>   - *save as* - save file content to any directory
+>   - *new* - open new untitled file
+> - **Edit**
+>   - *undo* - undo changes
+>   - *redo* - redo changes

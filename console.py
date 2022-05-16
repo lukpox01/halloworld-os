@@ -25,6 +25,8 @@ class Console:
             "rf": self.remove_file,
             "open": self.open_file,
             "openapp": self.open_app,
+            "rn" : self.rename_file,
+            "cwd": self.current_work_dir,
         }
         self.commands_keys = self.commands.keys()
         
@@ -51,6 +53,9 @@ class Console:
         cwd = os.path.join(*cwd)
         return cwd
 
+    def current_work_dir(self):
+        print(f"[{self.getcwd()}]")
+        
     def command_input(self):
         while True:
             command = input(self.sl_symobols["wfc"].format(path=self.getcwd()))
@@ -192,7 +197,25 @@ class Console:
         else:
             print("Check again something went wrong (this dir doesnt exists)")
 
-    # TODO remane file/dir
+    def rename_file(self, path, new_path, *args):
+        path = self.path_customizer(path)
+        custom_path = str(path).split("/")
+        is_parent_dir = os.path.isdir(
+            os.path.join(f"{custom_path[0]}/{custom_path[1]}", *custom_path[2:-1])
+        )
+        
+        new_path = self.path_customizer(new_path)
+        custom_path = str(new_path).split("/")
+        new_is_parent_dir = os.path.isdir(
+            os.path.join(f"{custom_path[0]}/{custom_path[1]}", *custom_path[2:-1])
+        )   
+        if is_parent_dir and new_is_parent_dir:
+            if os.path.exists(new_path):
+                print("Check again something went wrong (the new path already exists)")
+            else:
+                os.rename(path, new_path)
+        else:
+            print("Check again something went wrong (this dir doesnt exists)")
     
     def open_app(self, param1):
         param1.lower()
@@ -216,3 +239,10 @@ class Console:
 
         else:
             print("Check again something went wrong (this dir doesnt exists)")
+            
+c = Console(
+    "C:\\Users\\lukiy\\OneDrive\\Počítač\\programing\\halloworld-os\\os\\lukas",
+    "lukas",
+)
+
+c.command_input()
