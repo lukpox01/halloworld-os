@@ -81,6 +81,5 @@ def main(path_, file_name):
     root.config(menu=menubar) 
     root.mainloop()
     
-main(None, "Untitled")
 
 # TODO make stand alone app
