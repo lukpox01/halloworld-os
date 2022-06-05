@@ -22,7 +22,7 @@ def open_file(path_,event=None):
 
 def save_file(event=None):
     global path, root, st
-    with open(path, "w",encoding="utf-8") as f:
+    with open(path, "w", encoding="utf-8") as f:
         f.write(st.get(1.0, tk.END))
         
 def save_as(event=None):
@@ -82,3 +82,5 @@ def main(path_, file_name):
     root.mainloop()
     
 main(None, "Untitled")
+
+# TODO make stand alone app

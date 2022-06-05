@@ -5,6 +5,9 @@ import shutil
 from utils.utils import logo
 from console import Console
 
+from rich.panel import Panel
+from rich import print
+
 user_menu = """
 Choose one opition for {0}:
 
@@ -16,7 +19,7 @@ Choose one opition for {0}:
 
 def clear():
     os.system("cls")
-    print(logo)
+    print(Panel(logo))
 
 
 def presetup():
@@ -114,3 +117,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# TODO implement rich console

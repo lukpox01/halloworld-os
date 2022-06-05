@@ -4,6 +4,9 @@ import shutil
 import colorama
 from colorama import Fore, Back, Style
 from apps import *
+from rich.markdown import Markdown
+from rich import print
+from threading import Thread
 
 
 class Console:
@@ -27,10 +30,11 @@ class Console:
             "openapp": self.open_app,
             "rn" : self.rename_file,
             "cwd": self.current_work_dir,
+            "help": self.help,
         }
         self.commands_keys = self.commands.keys()
         
-        self.apps = {"texteditor": TextEditor}
+        self.apps = {"texteditor": TextEditor, "time": TimeApp}
         self.apps_keys = self.apps.keys()
         colorama.init(autoreset=True)
 
@@ -103,6 +107,8 @@ class Console:
             if isdir:
                 print("Check again something went wrong (this file already exists)")
             else:
+                if content == None:
+                    content = ""
                 f = open(path, "w")
                 f.write(content)
                 f.close()
@@ -217,10 +223,15 @@ class Console:
         else:
             print("Check again something went wrong (this dir doesnt exists)")
     
-    def open_app(self, param1):
+    # def threading_(self, func, *args):
+    #     Thread(target=func, args=args).start()
+    
+    def open_app(self, param1, *args):
         param1.lower()
         if param1 == "texteditor":
-            TextEditor(None, None)
+            TextEditor(None, "Untitled")
+        elif param1 == "time":
+            TimeApp()
         else:
             print("Check again something went wrong (this app doesnt exists)")
     
@@ -233,16 +244,18 @@ class Console:
         if is_parent_dir:
             isfile = os.path.isfile(path)
             if isfile:
-                TextEditor(path,custom_path[-1])
+                TextEditor(path, custom_path[-1])
+                
             else:
                 print("Check again something went wrong (this file doesnt exists)")
 
         else:
             print("Check again something went wrong (this dir doesnt exists)")
             
-c = Console(
-    "C:\\Users\\lukiy\\OneDrive\\Počítač\\programing\\halloworld-os\\os\\lukas",
-    "lukas",
-)
+    def help(self):
+        markdown = open(os.path.join(self.usr_path, "..", "..", "readme.md"), "r").read()
+        md = Markdown(markdown)
+        print(md)
+        
 
-c.command_input()
+# TODO implement rich console

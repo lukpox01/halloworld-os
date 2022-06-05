@@ -89,6 +89,11 @@
 > **Funcs:**  
 > - This command can be used to open any app
 
+> ### help
+> 
+> **Funcs:**  
+> - This command can be used to see all commands
+
 > ### exit
 > 
 > **Funcs:**  
@@ -104,3 +109,13 @@
 > - **Edit**
 >   - *undo* - undo changes
 >   - *redo* - redo changes
+
+### Time
+> **Funcs:**
+> - **Time**
+>   - just show current time and date
+> - **Stopwatch**
+>   - every time you click on menu ti resets
+> **Timer**
+>   - you can set time for timer
+>   - !!for now it make no sound!!
