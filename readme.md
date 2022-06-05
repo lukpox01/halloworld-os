@@ -85,6 +85,7 @@
 > **Params:**  
 > - **app** - you can specify what app do you want to open
 >   - texteditor - gui text editor
+>   - time - gui time app(time, stopwatch, timer)
 > 
 > **Funcs:**  
 > - This command can be used to open any app
