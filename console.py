@@ -2,6 +2,7 @@ import os
 import time
 import shutil
 import colorama
+import sys
 from colorama import Fore, Back, Style
 from apps import *
 from rich.markdown import Markdown
@@ -169,7 +170,7 @@ class Console:
         print("Exiting...")
         time.sleep(1.20)
         self.cls()
-        exit(0)
+        sys.exit()
 
     def remove_file(self, path, *args): 
             

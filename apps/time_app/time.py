@@ -1,7 +1,4 @@
-
-from ast import Lambda
 import tkinter as tk
-from tkinter.scrolledtext import ScrolledText
 from functools import partial
 import time
 from datetime import datetime, timedelta

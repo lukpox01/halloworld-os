@@ -1,7 +1,7 @@
 import os
 import time
 import shutil
-
+import sys
 from utils.utils import logo
 from console import Console
 
@@ -44,7 +44,7 @@ def create_user(path):
         f.writelines(username + "\n" + password)
     print("user was setup sucessfuly now the program shut down")
     time.sleep(1.20)
-    exit(0)
+    sys.exit()
 
 
 def select_user(users):
@@ -72,7 +72,7 @@ def change_password(path):
         f.writelines(username + "\n" + password)
     print("user was setup sucessfuly now the program shut down")
     time.sleep(1.20)
-    exit(0)
+    sys.exit()
 
 
 def main():
