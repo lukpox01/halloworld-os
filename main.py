@@ -119,3 +119,4 @@ if __name__ == "__main__":
     main()
 
 # TODO implement rich console
+# TODO forgot password

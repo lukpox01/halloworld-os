@@ -31,11 +31,12 @@ class Console:
             "openapp": self.open_app,
             "rn" : self.rename_file,
             "cwd": self.current_work_dir,
+            "calc": self.calculate,
             "help": self.help,
         }
         self.commands_keys = self.commands.keys()
         
-        self.apps = {"texteditor": TextEditor, "time": TimeApp}
+        self.apps = {"texteditor": TextEditor, "time": TimeApp, "calculator": Calculator}
         self.apps_keys = self.apps.keys()
         colorama.init(autoreset=True)
 
@@ -224,15 +225,14 @@ class Console:
         else:
             print("Check again something went wrong (this dir doesnt exists)")
     
-    # def threading_(self, func, *args):
-    #     Thread(target=func, args=args).start()
-    
     def open_app(self, param1, *args):
         param1.lower()
         if param1 == "texteditor":
             TextEditor(None, "Untitled")
         elif param1 == "time":
             TimeApp()
+        elif param1 == "calculator":
+            Calculator()
         else:
             print("Check again something went wrong (this app doesnt exists)")
     
@@ -252,6 +252,15 @@ class Console:
 
         else:
             print("Check again something went wrong (this dir doesnt exists)")
+          
+          
+    def calculate(self , param1, *args):
+        try:
+            solved = eval(param1)
+        except:
+            solved = "Check again something went wrong (this is not a valid expression)"
+        print(f"Problem: {param1}")
+        print(f"Solved: {solved}")
             
     def help(self):
         markdown = open(os.path.join(self.usr_path, "..", "..", "readme.md"), "r").read()

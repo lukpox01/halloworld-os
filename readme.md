@@ -90,6 +90,13 @@
 > **Funcs:**  
 > - This command can be used to open any app
 
+> ### calc *{ expression }*
+> **Params:**  
+> - **expression** - you can type math problems like 2+2
+> 
+> **Funcs:**  
+> - Solve math problems
+
 > ### help
 > 
 > **Funcs:**  
@@ -120,3 +127,8 @@
 > **Timer**
 >   - you can set time for timer
 >   - !!for now it make no sound!!
+
+### Calculator
+> **Funcs:**
+> - you cant type math problems and it solve it for you
+> - you can type by keyboard or by gui platform
