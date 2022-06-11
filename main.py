@@ -64,12 +64,16 @@ def select_user(users):
     return users[usr_id]
 
 
-def change_password(path):
+def change_password(path, username):
     clear()
-    username = input("Type here your new username to be displayed: ")
-    password = input("Type here your new password: ")
+    username_new = input("Type here your new username to be displayed (empty for current): ")
+    password_new = input("Type here your new password: ")
+    
+    if username_new == "":
+        username_new = username
+    
     with open(os.path.join(path, "login_info.txt"), "w") as f:
-        f.writelines(username + "\n" + password)
+        f.writelines(username_new + "\n" + password_new)
     print("user was setup sucessfuly now the program shut down")
     time.sleep(1.20)
     sys.exit()
@@ -106,7 +110,7 @@ def main():
         elif opition == 2:
             password_ = input("Type your password: ")
             if password == password_:
-                change_password(usr_path)
+                change_password(usr_path, user)
         elif opition == 3:
             delete = input(f"Do you really want to delete {user} user Y/N ").lower()
             if delete == "y":
@@ -119,4 +123,5 @@ if __name__ == "__main__":
     main()
 
 # TODO implement rich console
-# TODO forgot password
+# TODO forgot password-- databases
+# TODO create instaler/updater
