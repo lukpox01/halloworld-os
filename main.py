@@ -1,9 +1,12 @@
 import os
+from platform import version
 import time
 import shutil
 import sys
 from utils.utils import logo
 from console import Console
+import requests
+from colorama import Fore
 
 from rich.panel import Panel
 from rich import print
@@ -16,13 +19,21 @@ Choose one opition for {0}:
 [3] delete
 """
 
+version_ = "v0.4.0-beta"
 
 def clear():
     os.system("cls")
     print(Panel(logo))
 
-
+def check_version():
+    response = requests.get("https://api.github.com/repos/lukas-beep/halloworld-os/releases/latest")
+    version_latest = response.json()["name"]
+    if version_latest != version_:
+        sys.exit(Fore.RED + "Please update the program from github" +Fore.BLUE+ f"\tlatest version is {version_latest} you are using {version_}" +Fore.CYAN+"\thttps://github.com/lukas-beep/halloworld-os/releases/latest"+ Fore.RESET)
+        
+    
 def presetup():
+    check_version()
     path = os.getcwd()
     if not os.path.exists(os.path.join(path, "os")):
         os.mkdir(os.path.join(path, "os"))
