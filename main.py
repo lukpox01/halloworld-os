@@ -3,13 +3,15 @@ from platform import version
 import time
 import shutil
 import sys
-from utils.utils import logo
+from utils import *
 from console import Console
 import requests
 from colorama import Fore
 
 from rich.panel import Panel
 from rich import print
+import zipfile
+from io import BytesIO
 
 user_menu = """
 Choose one opition for {0}:
@@ -21,23 +23,47 @@ Choose one opition for {0}:
 
 version_ = "v0.4.0-beta"
 
+
 def clear():
     os.system("cls")
     print(Panel(logo))
 
+def update(latest_version):
+    response = requests.get(
+        f"https://github.com/lukas-beep/halloworld-os/releases/download/{latest_version}/halloworld-os.zip"
+    )
+    zipfile_ = zipfile.ZipFile(BytesIO(response.content))
+    cwd = os.getcwd()
+    uninstaler(cwd)
+    zipfile_.extractall(cwd)
+    os.remove(os.path.join(cwd, "main.py"))
+
+def get_latest_version():
+    response = requests.get(
+        "https://api.github.com/repos/lukas-beep/halloworld-os/releases/latest"
+    )
+    return response.json()["name"]
+
 def check_version():
-    response = requests.get("https://api.github.com/repos/lukas-beep/halloworld-os/releases/latest")
-    version_latest = response.json()["name"]
+    version_latest = get_latest_version()
     if version_latest != version_:
-        sys.exit(Fore.RED + "Please update the program from github" +Fore.BLUE+ f"\tlatest version is {version_latest} you are using {version_}" +Fore.CYAN+"\thttps://github.com/lukas-beep/halloworld-os/releases/latest"+ Fore.RESET)
-        
-    
+        sys.exit(
+            Fore.RED
+            + "Please update the program from github"
+            + Fore.BLUE
+            + f"\tlatest version is {version_latest} you are using {version_}"
+            + Fore.CYAN
+            + "\thttps://github.com/lukas-beep/halloworld-os/releases/latest"
+            + Fore.RESET
+        )
+
+
 def presetup():
     check_version()
     path = os.getcwd()
     if not os.path.exists(os.path.join(path, "os")):
         os.mkdir(os.path.join(path, "os"))
-        
+
     path = os.path.join(path, "os")
     in_main_dir = os.listdir(path)
     if in_main_dir == []:
@@ -77,12 +103,14 @@ def select_user(users):
 
 def change_password(path, username):
     clear()
-    username_new = input("Type here your new username to be displayed (empty for current): ")
+    username_new = input(
+        "Type here your new username to be displayed (empty for current): "
+    )
     password_new = input("Type here your new password: ")
-    
+
     if username_new == "":
         username_new = username
-    
+
     with open(os.path.join(path, "login_info.txt"), "w") as f:
         f.writelines(username_new + "\n" + password_new)
     print("user was setup sucessfuly now the program shut down")
@@ -130,8 +158,10 @@ def main():
                     shutil.rmtree(usr_path)
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
+
+update(get_latest_version())
 
 # TODO implement rich console
 # TODO forgot password-- databases
