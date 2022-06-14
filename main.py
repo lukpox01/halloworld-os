@@ -13,6 +13,8 @@ from rich import print
 import zipfile
 from io import BytesIO
 
+
+
 user_menu = """
 Choose one opition for {0}:
 
@@ -28,16 +30,6 @@ def clear():
     os.system("cls")
     print(Panel(logo))
 
-def update(latest_version):
-    response = requests.get(
-        f"https://github.com/lukas-beep/halloworld-os/releases/download/{latest_version}/halloworld-os.zip"
-    )
-    zipfile_ = zipfile.ZipFile(BytesIO(response.content))
-    cwd = os.getcwd()
-    uninstaler(cwd)
-    zipfile_.extractall(cwd)
-    os.remove(os.path.join(cwd, "main.py"))
-
 def get_latest_version():
     response = requests.get(
         "https://api.github.com/repos/lukas-beep/halloworld-os/releases/latest"
@@ -47,7 +39,7 @@ def get_latest_version():
 def check_version():
     version_latest = get_latest_version()
     if version_latest != version_:
-        sys.exit(
+        print(
             Fore.RED
             + "Please update the program from github"
             + Fore.BLUE
@@ -56,6 +48,12 @@ def check_version():
             + "\thttps://github.com/lukas-beep/halloworld-os/releases/latest"
             + Fore.RESET
         )
+        l= input("do you want to update Y/N").lower()
+        if l == "y":
+            # os.startfile(os.path.join(os.getcwd(), "updater.exe"), version_latest)
+            sys.exit(f"please run this command tu update '{os.getcwd()}\\updater.exe {version_latest}'")
+        else:
+            return
 
 
 def presetup():
@@ -158,10 +156,10 @@ def main():
                     shutil.rmtree(usr_path)
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
 
-update(get_latest_version())
+
 
 # TODO implement rich console
 # TODO forgot password-- databases

@@ -1,2 +1,1 @@
-from utils import logo
-from uninstaler import uninstaler
+from .utils import logo

@@ -75,5 +75,5 @@ def main():
     root.config() 
     root.mainloop()
     
-main()
+
 # TODO make stand alone app
