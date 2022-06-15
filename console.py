@@ -3,15 +3,15 @@ import time
 import shutil
 import colorama
 import sys
-from colorama import Fore, Back, Style
 from apps import *
 from rich.markdown import Markdown
-from rich import print
 from threading import Thread
+from rich.console import Console as Console_
 
 
 class Console:
     def __init__(self, path, user):
+        self.console = Console_()
         self.user = user
         self.usr_path = path
         os.chdir(path)
@@ -60,7 +60,7 @@ class Console:
         return cwd
 
     def current_work_dir(self):
-        print(f"[{self.getcwd()}]")
+        self.console.print(f"[{self.getcwd()}]")
         
     def command_input(self):
         while True:
@@ -90,11 +90,11 @@ class Console:
         if is_parent_dir:
             isdir = os.path.isdir(path)
             if isdir:
-                print("Check again something went wrong (this dir already exists)")
+                self.console.print("Check again something went wrong (this dir already exists)")
             else:
                 os.mkdir(path)
         else:
-            print(
+            self.console.print(
                 "Check again something went wrong (you cant create multiple dirs at once)"
             )
 
@@ -107,7 +107,7 @@ class Console:
         if is_parent_dir:
             isdir = os.path.isfile(path)
             if isdir:
-                print("Check again something went wrong (this file already exists)")
+                self.console.print("Check again something went wrong (this file already exists)")
             else:
                 if content == None:
                     content = ""
@@ -115,7 +115,7 @@ class Console:
                 f.write(content)
                 f.close()
         else:
-            print("Check again something went wrong (this dir doesnt exists)")
+            self.console.print("Check again something went wrong (this dir doesnt exists)")
 
     def cd(self, path, *args):
         path = self.path_customizer(path)
@@ -123,7 +123,7 @@ class Console:
         if isdir:
             os.chdir(path)
         else:
-            print("Check again something went wrong (this dir doesnt exists)")
+            self.console.print("Check again something went wrong (this dir doesnt exists)")
 
     def ld(self, path=None, *args):
         if path == None:
@@ -133,18 +133,18 @@ class Console:
         isdir = os.path.isdir(path)
         if isdir:
             in_dir = os.listdir(path)
-            print(" ")
+            self.console.print(" ")
             for i in in_dir:
                 if os.path.isfile(os.path.join(path, i)):
-                    print(i)
+                    self.console.print(i)
                 elif os.path.isdir(os.path.join(path, i)):
-                    print(Fore.CYAN + i)
+                    self.console.print("[cyan]" + i + "[/]")
                 else:
-                    print(Fore.GREEN + i) # if there is something else(undetected file)
+                    self.console.print("[green]" + i + "[/]") # if there is something else(undetected file)
                 
-            print(" ")
+            self.console.print(" ")
         else:
-            print("Check again something went wrong (this dir does not exists)")
+            self.console.print("Check again something went wrong (this dir does not exists)")
 
     def content_of_file(self, path, *args):
         path = self.path_customizer(path)
@@ -157,18 +157,18 @@ class Console:
             if isfile:
                 with open(path, "r") as f:
                     content = f.readlines()
-                    print(f"\nContent of file {custom_path[-1]}:\n")
+                    self.console.print(f"\nContent of file {custom_path[-1]}:\n")
                     for i in content:
-                        print(i.rstrip())
-                    print("")
+                        self.console.print(i.rstrip())
+                    self.console.print("")
             else:
-                print("Check again something went wrong (this file doesnt exists)")
+                self.console.print("Check again something went wrong (this file doesnt exists)")
 
         else:
-            print("Check again something went wrong (this dir doesnt exists)")
+            self.console.print("Check again something went wrong (this dir doesnt exists)")
 
     def exit_(self, *args):
-        print("Exiting...")
+        self.console.print("Exiting...")
         time.sleep(1.20)
         self.cls()
         sys.exit()
@@ -184,14 +184,14 @@ class Console:
             isfile = os.path.isfile(path)
             if isfile:
                 if custom_path[0] == "login_info.txt": 
-                    print("Check again something went wrong (you cant delete this file)")
+                    self.console.print("Check again something went wrong (you cant delete this file)")
                 else:
                     os.remove(path)
             else:
-                print("Check again something went wrong (this file doesnt exists)")
+                self.console.print("Check again something went wrong (this file doesnt exists)")
 
         else:
-            print("Check again something went wrong (this dir doesnt exists)")
+            self.console.print("Check again something went wrong (this dir doesnt exists)")
             
             
     def remove_dir(self, path, param1, *args): 
@@ -203,7 +203,7 @@ class Console:
             elif param1 == None:
                 os.rmdir(path)
         else:
-            print("Check again something went wrong (this dir doesnt exists)")
+            self.console.print("Check again something went wrong (this dir doesnt exists)")
 
     def rename_file(self, path, new_path, *args):
         path = self.path_customizer(path)
@@ -219,11 +219,11 @@ class Console:
         )   
         if is_parent_dir and new_is_parent_dir:
             if os.path.exists(new_path):
-                print("Check again something went wrong (the new path already exists)")
+                self.console.print("Check again something went wrong (the new path already exists)")
             else:
                 os.rename(path, new_path)
         else:
-            print("Check again something went wrong (this dir doesnt exists)")
+            self.console.print("Check again something went wrong (this dir doesnt exists)")
     
     def open_app(self, param1, *args):
         param1.lower()
@@ -234,7 +234,7 @@ class Console:
         elif param1 == "calculator":
             Calculator()
         else:
-            print("Check again something went wrong (this app doesnt exists)")
+            self.console.print("Check again something went wrong (this app doesnt exists)")
     
     def open_file(self, path):
         path = self.path_customizer(path)
@@ -248,10 +248,10 @@ class Console:
                 TextEditor(path, custom_path[-1])
                 
             else:
-                print("Check again something went wrong (this file doesnt exists)")
+                self.console.print("Check again something went wrong (this file doesnt exists)")
 
         else:
-            print("Check again something went wrong (this dir doesnt exists)")
+            self.console.print("Check again something went wrong (this dir doesnt exists)")
           
           
     def calculate(self , param1, *args):
@@ -259,13 +259,13 @@ class Console:
             solved = eval(param1)
         except:
             solved = "Check again something went wrong (this is not a valid expression)"
-        print(f"Problem: {param1}")
-        print(f"Solved: {solved}")
+        self.console.print(f"Problem: {param1}")
+        self.console.print(f"Solved: {solved}")
             
     def help(self):
         markdown = open(os.path.join(self.usr_path, "..", "..", "readme.md"), "r").read()
         md = Markdown(markdown)
-        print(md)
+        self.console.print(md)
         
 
 # TODO implement rich console

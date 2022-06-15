@@ -6,10 +6,9 @@ import sys
 from utils import *
 from console import Console
 import requests
-from colorama import Fore
 
 from rich.panel import Panel
-from rich import print
+from rich.console import Console as Console_
 import zipfile
 from io import BytesIO
 
@@ -23,12 +22,12 @@ Choose one opition for {0}:
 [3] delete
 """
 
-version_ = "v0.4.0-beta"
+version_ = "v0.4.8"
 
 
 def clear():
     os.system("cls")
-    print(Panel(logo))
+    console.print(Panel(logo))
 
 def get_latest_version():
     response = requests.get(
@@ -39,14 +38,14 @@ def get_latest_version():
 def check_version():
     version_latest = get_latest_version()
     if version_latest != version_:
-        print(
-            Fore.RED
+        console.print(
+            "[red]"
             + "Please update the program from github"
-            + Fore.BLUE
+            + "[blue]"
             + f"\tlatest version is {version_latest} you are using {version_}"
-            + Fore.CYAN
+            + "[cyan]"
             + "\thttps://github.com/lukas-beep/halloworld-os/releases/latest"
-            + Fore.RESET
+            + "[/]"
         )
         l= input("do you want to update Y/N").lower()
         if l == "y":
@@ -77,24 +76,24 @@ def create_user(path):
     os.mkdir(os.path.join(path, username))
     with open(os.path.join(path, username, "login_info.txt"), "w") as f:
         f.writelines(username + "\n" + password)
-    print("user was setup sucessfuly now the program shut down")
+    console.print("user was setup sucessfuly now the program shut down")
     time.sleep(1.20)
     sys.exit()
 
 
 def select_user(users):
     clear()
-    print("select user: ")
+    console.print("select user: ")
     users.append("Create a new user")
     for i, user in enumerate(users):
-        print(f"[{i}] {user}")
-    print("")
+        console.print(f"[{i}] {user}")
+    console.print("")
     while True:
         usr_id = int(input("[?] "))
         if usr_id + 1 <= len(users) and usr_id + 1 >= 0:
             break
         else:
-            print("Check again something was wrong")
+            console.print("Check again something was wrong")
 
     return users[usr_id]
 
@@ -111,7 +110,7 @@ def change_password(path, username):
 
     with open(os.path.join(path, "login_info.txt"), "w") as f:
         f.writelines(username_new + "\n" + password_new)
-    print("user was setup sucessfuly now the program shut down")
+    console.print("user was setup sucessfuly now the program shut down")
     time.sleep(1.20)
     sys.exit()
 
@@ -131,19 +130,19 @@ def main():
             lines = f.readlines()
             password = lines[1]
         clear()
-        print(user_menu.format(user))
+        console.print(user_menu.format(user))
         while True:
             opition = int(input("[?] "))
             if opition <= 3 and opition >= 0:
                 break
             else:
-                print("Check again something went wrong")
+                console.print("Check again something went wrong")
         if opition == 1:
             password_ = input("Type your password: ")
             if password == password_:
                 clear()
-                console = Console(usr_path, user)
-                console.command_input()
+                console_main = Console(usr_path, user)
+                console_main.command_input()
         elif opition == 2:
             password_ = input("Type your password: ")
             if password == password_:
@@ -157,10 +156,11 @@ def main():
 
 
 if __name__ == "__main__":
+    global console
+    console = Console_()
     main()
 
 
 
-# TODO implement rich console
 # TODO forgot password-- databases
-# TODO create instaler/updater
+# TODO create instaler
