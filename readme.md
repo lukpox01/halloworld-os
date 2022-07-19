@@ -124,7 +124,7 @@
 >   - just show current time and date
 > - **Stopwatch**
 >   - every time you click on menu ti resets
-> **Timer**
+> - **Timer**
 >   - you can set time for timer
 >   - !!for now it make no sound!!
 
